@@ -26,16 +26,27 @@
                     else{
                         $page_1 = ($page *5) -5;
                     }
+                    if(isset($_SESSION['user_role']) && $_SESSION['user_role'] =='admin'){
+                        $post_query_count = "SELECT * FROM posts";
+                        
+                    }
+                    else{
+                        $post_query_count= "SELECT * FROM posts WHERE post_status = 'published' ";
 
+                    }
 
-                    $post_query_count = "SELECT * FROM posts WHERE post_status = 'published' ";
                     $find_count = mysqli_query($connection,$post_query_count);
                     $count = mysqli_num_rows($find_count);
-
-
+                    if($count <1){
+                        echo "<h1 class='text-center'>No post avaliable</h1>";
+                      
+                    }
+                    else{
+                        
+                    
                     $count = ceil($count /5);
 
-                    $qurey = "SELECT * FROM posts WHERE post_status = 'published' LIMIT $page_1, 5 ";
+                    $qurey = "SELECT * FROM posts LIMIT $page_1, 5 ";
                     $select_all_posts_query = mysqli_query($connection,$qurey);
 
                     while($row = mysqli_fetch_assoc($select_all_posts_query)){
@@ -47,8 +58,6 @@
                         $post_content= substr($row['post_content'],0,100); 
                         $post_status = $row['post_status'];
 
-                        if($post_status =='published'){
-
                         ?>
                 <h1 class="page-header">
                     Page Heading
@@ -58,7 +67,7 @@
                 <!-- First Blog Post -->
 
                 <h2>
-                    <a href="post.php?p_id=<?php echo $post_id ?>"><?php echo $post_title ?></a>
+                    <a href="post/<?php echo $post_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                     by <a href="author_posts.php?author=<?php echo $post_user ?>&p_id=<?php echo $post_id ?>"><?php echo $post_user ?></a>
@@ -66,7 +75,7 @@
                 <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date ?></p>
                 <hr>
                 <a  href="post.php?p_id=<?php echo $post_id ?>">
-                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
+                <img class="img-responsive" src="images/<?php echo imagePlaceHolder($post_image); ?>" alt="">
                 </a>
                 <hr>
                 <p><?php echo $post_content ?></p>

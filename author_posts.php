@@ -36,7 +36,7 @@
 
                 <!-- First Blog Post -->
                 <h2>
-                    <a href="#"><?php echo $post_title ?></a>
+                    <a href="/cms2/post/<?php echo $the_post_id ?>"><?php echo $post_title ?></a>
                 </h2>
                 <p class="lead">
                 All post by <?php echo $post_author ?>

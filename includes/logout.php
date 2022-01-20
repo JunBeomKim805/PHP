@@ -1,4 +1,5 @@
 <?php include "db.php";?>
+
 <?php session_start();?>
 <?php 
     $_SESSION['user_name'] = null;

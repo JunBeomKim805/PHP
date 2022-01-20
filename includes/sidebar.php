@@ -1,7 +1,20 @@
 <div class="col-md-4">
 
 <?php
-    
+    if(ifItIsMethod('post')){
+
+        if(isset($_POST['login'])){
+            if(isset($_POST['user_name']) && isset($_POST['password'])){
+                $user_name = $_POST['user_name'];
+                $password = $_POST['password'];
+                login_user($user_name,$password);
+            }
+            else{
+                redirect('index');
+            }
+        }
+
+    }
 
 
 ?>
@@ -28,8 +41,12 @@
 
 <!-- log in -->
 <div class="well">
-    <h4>Login</h4>
-    <form action="includes/login.php" method="post">
+    <?php if(isset($_SESSION['user_role'])): ?>
+        <h4>Logged in as <?php echo $_SESSION['user_name'] ?></h4>
+        <a href="/cms2/includes/logout.php" class="btn btn-primary">Logout</a>
+    <?php else: ?>
+        <h4>Login</h4>
+    <form  method="post">
         <div class="form-group">
             <input name="user_name" type="text" class="form-control" placeholder="Enter Username">
         </div>
@@ -41,8 +58,13 @@
                 </button>
             </span>
         </div>
+        <div class="form-group">
+            <a href="forgot.php?forgot=<?php echo uniqid(true); ?>">Forgot Password</a>
+        </div>
     </form>
     <!-- /.input-group -->
+    <?php endif; ?>
+
 </div>
 
 

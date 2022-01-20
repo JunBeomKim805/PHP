@@ -1,6 +1,8 @@
 <?php ob_start(); ?>
 <?php include "../includes/db.php" ?>
-<?php session_start();?>
+<?php if (session_status() == PHP_SESSION_NONE) session_start();
+
+?>
 <?php include "function.php"?>
 
 <?php 
@@ -47,6 +49,7 @@ if(!isset($_SESSION['user_role'])){
     <link href="css/styles.css" rel="stylesheet">
 
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="js/jquery.js"></script>
 
 </head>
 

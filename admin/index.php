@@ -15,7 +15,7 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">
                             Welcome to admin
-                            <small><?php echo $_SESSION['user_name']?></small>
+                            <small><?php echo strtoupper(get_user_name()) ;?></small>
                         </h1>
                     </div>
                 </div>
@@ -32,14 +32,8 @@
                                         <i class="fa fa-file-text fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                <?php 
-                                    $query = "SELECT *FROM posts";
-                                    $select_all_post = mysqli_query($connection,$query);
-                                    $post_counts = mysqli_num_rows($select_all_post);
 
-                                    echo "<div class='huge'>$post_counts</div>"
-
-                                ?>
+                                    <div class='huge'><?php echo $post_counts = recordCount('posts');?></div> 
                                         <div>Posts</div>
                                     </div>
                                 </div>
@@ -61,14 +55,8 @@
                                         <i class="fa fa-comments fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                        $query = "SELECT *FROM comments";
-                                        $select_all_comments = mysqli_query($connection,$query);
-                                        $comments_counts = mysqli_num_rows($select_all_comments);
+                                    <div class='huge'><?php echo $comments_counts = recordCount('comments');?></div>
 
-                                        echo "<div class='huge'>$comments_counts</div>"
-
-                                    ?>
                                     <div>Comments</div>
                                     </div>
                                 </div>
@@ -90,14 +78,8 @@
                                         <i class="fa fa-user fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                        $query = "SELECT *FROM users";
-                                        $select_all_users = mysqli_query($connection,$query);
-                                        $users_counts = mysqli_num_rows($select_all_users);
+                                    <div class='huge'><?php echo $users_counts = recordCount('users');?></div>
 
-                                        echo "<div class='huge'>$users_counts</div>"
-
-                                    ?>
                                         <div> Users</div>
                                     </div>
                                 </div>
@@ -119,14 +101,8 @@
                                         <i class="fa fa-list fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                    <?php 
-                                        $query = "SELECT *FROM categories";
-                                        $select_all_categories = mysqli_query($connection,$query);
-                                        $categories_counts = mysqli_num_rows($select_all_categories);
+                                    <div class='huge'><?php echo $categories_counts = recordCount('categories');?></div>
 
-                                        echo "<div class='huge'>$categories_counts</div>"
-
-                                    ?>
                                         <div>Categories</div>
                                     </div>
                                 </div>
@@ -143,21 +119,12 @@
                 </div>
                 <!-- /.row -->
                 <?php
-                    $query = "SELECT *FROM posts WHERE post_status = 'published' ";
-                    $select_all_published_posts = mysqli_query($connection,$query);
-                    $post_publish_counts = mysqli_num_rows($select_all_published_posts); 
 
-                    $query = "SELECT *FROM posts WHERE post_status = 'draft' ";
-                    $select_all_draft_posts = mysqli_query($connection,$query);
-                    $post_draft_counts = mysqli_num_rows($select_all_draft_posts); 
+                    $post_publish_counts = checkStatus('posts','post_status','published'); 
+                    $post_draft_counts = checkStatus('posts','post_status','draft'); 
+                    $unapproved_comments_count = checkStatus('comments','comment_status','unapproved');
 
-                    $query = "SELECT *FROM comments WHERE comment_status = 'unapproved' ";
-                    $unapproved_comments_query = mysqli_query($connection,$query);
-                    $unapproved_comments_count = mysqli_num_rows($unapproved_comments_query); 
-                                                   
-                    $query = "SELECT *FROM users WHERE user_role = 'subscriber' ";
-                    $select_all_subscribers = mysqli_query($connection,$query);
-                    $subscriber_count = mysqli_num_rows($select_all_subscribers);                                
+                    $subscriber_count = checkUserRole('users','user_role','subscriber');                           
                 
                 ?>
                 <div class="row">
